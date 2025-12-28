@@ -1,8 +1,8 @@
-﻿using Chef_sTable.Models;
+﻿using ChefsTable.Models;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Chef_sTable
+namespace ChefsTable
 {
     public class ChefContext : DbContext
     {

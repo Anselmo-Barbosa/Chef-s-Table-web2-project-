@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace Chef_sTable.Models
+namespace ChefsTable.Models
 {
     public class Usuario
     {

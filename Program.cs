@@ -1,4 +1,4 @@
-using Chef_sTable;
+using ChefsTable;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

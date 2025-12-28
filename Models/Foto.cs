@@ -1,4 +1,4 @@
-﻿namespace Chef_sTable.Models
+﻿namespace ChefsTable.Models
 {
     public class Foto
     {

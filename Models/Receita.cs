@@ -1,6 +1,6 @@
-﻿using static Chef_sTable.Models.Receita;
+﻿using static ChefsTable.Models.Receita;
 
-namespace Chef_sTable.Models
+namespace ChefsTable.Models
 {
     public class Receita
     {
