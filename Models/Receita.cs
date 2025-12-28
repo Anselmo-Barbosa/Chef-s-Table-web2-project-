@@ -30,7 +30,7 @@
         }
         public Categoria categoria { get; set; }
 
-        public Avaliacao avaliacao;
+        public ICollection<Avaliacao> avaliacao;
         public DateTime dataCriacao { get; set; }
         public List<string> PhotoUrls { get; set; } 
 

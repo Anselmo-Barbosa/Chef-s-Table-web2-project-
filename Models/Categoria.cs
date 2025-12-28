@@ -6,6 +6,5 @@
         public string nome { get; set; }
         public ICollection<Receita> receitas { get; set; } = new List<Receita>();
 
-
     }
 }
