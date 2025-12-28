@@ -2,13 +2,13 @@
 {
     public class Comentario
     {
-        private int Id { get; set; }
-        public string texto { get; set; }
-        public DateTime dataCriacao { get; set; }
-        public int receitaId { get; set; }
-        public Receita receita { get; set; }
-        public Usuario user { get; set; }
-        public int userId { get; set; }
+        public int Id { get; set; }
+        public string Texto { get; set; }
+        public DateTime DataCriacao { get; set; }
+        public int ReceitaId { get; set; }
+        public Receita Receita { get; set; }
+        public Usuario User { get; set; }
+        public int UserId { get; set; }
 
 
     }

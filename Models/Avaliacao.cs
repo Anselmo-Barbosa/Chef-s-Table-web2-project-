@@ -3,12 +3,12 @@
     public class Avaliacao
     {
         public int Id { get; set; }
-        public int nota { get; set; }
-        public string feedback { get; set; }
-        public int receitaId { get; set; }
-        public Receita receita { get; set; }
-        public Usuario usuario { get; set; }
-        public int userId { get; set; }
+        public int Nota { get; set; }
+        public string Feedback { get; set; }
+        public int ReceitaId { get; set; }
+        public Receita Receita { get; set; }
+        public Usuario Usuario { get; set; }
+        public int UserId { get; set; }
 
     }
 }

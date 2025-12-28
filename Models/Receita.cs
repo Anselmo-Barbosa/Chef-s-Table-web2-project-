@@ -1,21 +1,25 @@
-﻿namespace Chef_sTable.Models
+﻿using static Chef_sTable.Models.Receita;
+
+namespace Chef_sTable.Models
 {
     public class Receita
     {
-        private int Id { get; set; }
-        public string titulo { get; set; }
-        public string descricao { get; set; }
-        public string ingredientes { get; set; }
-        public string modoPreparo { get; set; }
-        public int tempoPreparo { get; set; }
-        public int userId { get; set; }
-        public Usuario usuario { get; set; }
-        public enum dificuldadeNivel
+        public int Id { get; set; }
+        public string Titulo { get; set; }
+        public string Descricao { get; set; }
+        public string Ingredientes { get; set; }
+        public string ModoPreparo { get; set; }
+        public int TempoPreparo { get; set; }
+        public int UserId { get; set; }
+        public Usuario Usuario { get; set; }
+        public enum DificuldadeNivel
         {
             Facil,
             Medio,
             Dificil
         }
+
+        public DificuldadeNivel Dificuldade { get; set; }
 
         public enum Tag
         {
@@ -28,12 +32,15 @@
             Festas,
 
         }
-        public Categoria categoria { get; set; }
 
-        public ICollection<Avaliacao> avaliacao;
-        public DateTime dataCriacao { get; set; }
-        public List<string> PhotoUrls { get; set; } 
+        public Tag Tags { get; set; }
 
-        public ICollection<Comentario> comentarios = new List<Comentario>();
+        public Categoria Categoria { get; set; }
+
+        public ICollection<Avaliacao> Avaliacoes { get; set; } = new List<Avaliacao>();
+        public DateTime DataCriacao { get; set; }
+        public ICollection<Foto> Fotos { get; set; } = new List<Foto>();
+
+        public ICollection<Comentario> Comentarios { get; set; } = new List<Comentario>();
     }
 }
