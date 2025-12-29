@@ -10,7 +10,7 @@ namespace ChefsTable.Models
         public string Ingredientes { get; set; }
         public string ModoPreparo { get; set; }
         public int TempoPreparo { get; set; }
-        public int UserId { get; set; }
+        public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
         public enum DificuldadeNivel
         {

@@ -20,13 +20,27 @@ namespace ChefsTable
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Avaliacao>()
+           .HasOne(a => a.Usuario)
+           .WithMany(u => u.Avaliacoes)
+           .HasForeignKey(a => a.UsuarioId)
+           //Se apagar um usuário, não apague automaticamente avaliações
+           .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Usuario>().ToTable("Usuario");
+            modelBuilder.Entity<Comentario>()
+           .HasOne(c => c.Usuario)
+           .WithMany(u => u.Comentarios)
+           .HasForeignKey(c => c.UsuarioId)
+           //Se apagar um usuário, não apague automaticamente comentarios
+           .OnDelete(DeleteBehavior.Restrict);
+
+
+        modelBuilder.Entity<Usuario>().ToTable("Usuario");
             modelBuilder.Entity<Receita>().ToTable("Receita");
             modelBuilder.Entity<Categoria>().ToTable("Categoria");
             modelBuilder.Entity<Avaliacao>().ToTable("Avaliacao");
             modelBuilder.Entity<Comentario>().ToTable("Comentario");
+            modelBuilder.Entity<Foto>().ToTable("Fotos");
         }
     }
 }

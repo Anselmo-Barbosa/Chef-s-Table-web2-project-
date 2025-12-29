@@ -7,8 +7,8 @@
         public DateTime DataCriacao { get; set; }
         public int ReceitaId { get; set; }
         public Receita Receita { get; set; }
-        public Usuario User { get; set; }
-        public int UserId { get; set; }
+        public Usuario Usuario { get; set; }
+        public int UsuarioId { get; set; }
 
 
     }
