@@ -1,0 +1,47 @@
+﻿@page
+@model Chef_sTable.Pages.Comentarios.CreateModel
+
+        @{
+        ViewData["Title"] = "Create";
+        }
+        
+        <h1>Create</h1>
+        
+    <h4>Comentario</h4>
+    <hr />
+    <div class="row">
+    <div class="col-md-4">
+    <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Comentario.Texto" class="control-label"></label>
+                <input asp-for="Comentario.Texto" class="form-control" />
+                <span asp-validation-for="Comentario.Texto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comentario.DataCriacao" class="control-label"></label>
+                <input asp-for="Comentario.DataCriacao" class="form-control" />
+                <span asp-validation-for="Comentario.DataCriacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comentario.ReceitaId" class="control-label"></label>
+                <select asp-for="Comentario.ReceitaId" class ="form-control" asp-items="ViewBag.ReceitaId" ></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comentario.UsuarioId" class="control-label"></label>
+                <select asp-for="Comentario.UsuarioId" class ="form-control" asp-items="ViewBag.UsuarioId" ></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

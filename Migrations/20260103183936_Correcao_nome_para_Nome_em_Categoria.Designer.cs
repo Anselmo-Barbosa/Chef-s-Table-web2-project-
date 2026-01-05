@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chef_sTable.Migrations
 {
     [DbContext(typeof(ChefContext))]
-    [Migration("20251229215637_Primeira Migration")]
-    partial class PrimeiraMigration
+    [Migration("20260103183936_Correcao_nome_para_Nome_em_Categoria")]
+    partial class Correcao_nome_para_Nome_em_Categoria
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace Chef_sTable.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("nome")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

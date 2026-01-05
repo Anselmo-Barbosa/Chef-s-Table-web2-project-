@@ -1,0 +1,84 @@
+﻿@page
+@model Chef_sTable.Pages.Receitas.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].Ingredientes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].ModoPreparo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].TempoPreparo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].Usuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].Dificuldade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].Tags)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receita[0].DataCriacao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Receita) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingredientes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModoPreparo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TempoPreparo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dificuldade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCriacao)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

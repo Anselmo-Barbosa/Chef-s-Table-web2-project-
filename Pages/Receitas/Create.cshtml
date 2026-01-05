@@ -1,0 +1,96 @@
+﻿@page
+@using static ChefsTable.Models.Receita
+@model Chef_sTable.Pages.Receitas.CreateModel
+
+        @{
+        ViewData["Title"] = "Create";
+        }
+        
+        <h1>Create</h1>
+        
+    <h4>Receita</h4>
+    <hr />
+    <div class="row">
+    <div class="col-md-4">
+    <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Receita.Titulo" class="control-label"></label>
+                <input asp-for="Receita.Titulo" class="form-control" />
+                <span asp-validation-for="Receita.Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Descricao" class="control-label"></label>
+                <input asp-for="Receita.Descricao" class="form-control" />
+                <span asp-validation-for="Receita.Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Ingredientes" class="control-label"></label>
+                <input asp-for="Receita.Ingredientes" class="form-control" />
+                <span asp-validation-for="Receita.Ingredientes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.ModoPreparo" class="control-label"></label>
+                <input asp-for="Receita.ModoPreparo" class="form-control" />
+                <span asp-validation-for="Receita.ModoPreparo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.TempoPreparo" class="control-label"></label>
+                <input asp-for="Receita.TempoPreparo" class="form-control" />
+                <span asp-validation-for="Receita.TempoPreparo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Dificuldade"></label>
+                <select asp-for="Receita.Dificuldade"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<DificuldadeNivel>()">
+                </select>
+                <span asp-validation-for="Receita.Dificuldade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Tags"></label>
+                <select asp-for="Receita.Tags"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<Tag>()">
+                </select>
+                <span asp-validation-for="Receita.Tags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.UsuarioId"></label>
+                <select asp-for="Receita.UsuarioId"
+                        class="form-control"
+                        asp-items="Model.UsuariosSL">
+                    <option value="">-- Selecione o usuário --</option>
+                </select>
+                <span asp-validation-for="Receita.UsuarioId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.CategoriaId" class="control-label"></label>
+
+                <select asp-for="Receita.CategoriaId"
+                        asp-items="Model.CategoriasSL"
+                        class="form-control">
+
+                    <option value="">Selecione uma categoria</option>
+                </select>
+                <span asp-validation-for="Receita.CategoriaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.DataCriacao" class="control-label"></label>
+                <input asp-for="Receita.DataCriacao" class="form-control" />
+                <span asp-validation-for="Receita.DataCriacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
