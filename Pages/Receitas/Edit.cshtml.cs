@@ -67,6 +67,8 @@ namespace Chef_sTable.Pages.Receitas
                 }
             }
 
+            TempData["Success"] = "Sua receita foi editada com sucesso!";
+
             return RedirectToPage("./Index");
         }
 

@@ -44,12 +44,6 @@ namespace Chef_sTable.Pages.Receitas
         {
             if (!ModelState.IsValid)
             {
-                UsuariosSL = new SelectList(
-                    _context.Usuarios.ToList(),
-                    "Id",
-                    "Nome",
-                    Receita.UsuarioId
-                );
                 CategoriasSL = new SelectList(
                     _context.Categorias.ToList(),
                     "Id",
@@ -59,9 +53,15 @@ namespace Chef_sTable.Pages.Receitas
 
                 return Page();
             }
+            //Mocagem temporaria
+            Receita.UsuarioId = 1; 
+
+            Receita.DataCriacao = DateTime.Now;
 
             _context.Receitas.Add(Receita);
             await _context.SaveChangesAsync();
+            
+            TempData["Success"] = "Sua receita foi postada com sucesso!";
 
             return RedirectToPage("./Index");
         }
