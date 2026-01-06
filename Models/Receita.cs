@@ -9,15 +9,15 @@ namespace ChefsTable.Models
 
         [Required]
         public string Titulo { get; set; }
-        
-        [Range(1, 300)]
+
+        [Required]
         public string Descricao { get; set; }
-    
-        [Range(1, 500)]
+
+        [Required]
         public string Ingredientes { get; set; }
 
         [Required]
-        public string ModoPreparo { get; set; }
+        public string ModoPreparo { get; set; } 
 
         [Required]
         public int TempoPreparo { get; set; }

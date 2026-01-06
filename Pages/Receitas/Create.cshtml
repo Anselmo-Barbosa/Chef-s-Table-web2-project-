@@ -16,7 +16,11 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Receita.Titulo" class="control-label"></label>
-                <input asp-for="Receita.Titulo" class="form-control" />
+
+                <textarea asp-for="Receita.Titulo"
+                          class="form-control"
+                          placeholder="Dê um título ao seu prato"></textarea>
+
                 <span asp-validation-for="Receita.Titulo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,7 +28,7 @@
 
                 <textarea asp-for="Receita.Descricao" 
                  class="form-control" 
-                 rows="2"
+                 rows="3"
                  placeholder="Descreva a receita, origem, dicas..."
                 ></textarea>
 
@@ -32,12 +36,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Receita.Ingredientes" class="control-label"></label>
-                <input asp-for="Receita.Ingredientes" class="form-control" />
+                <textarea asp-for="Receita.Ingredientes"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Descreva todos os ingredientes usados"></textarea>
                 <span asp-validation-for="Receita.Ingredientes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Receita.ModoPreparo" class="control-label"></label>
-                <input asp-for="Receita.ModoPreparo" class="form-control" />
+                <textarea asp-for="Receita.Descricao"
+                          class="form-control"
+                          rows="8"
+                          placeholder="Descreva detalhadamente o passo a passo,como tempo de cozimento, dicas adicionais..."></textarea>
                 <span asp-validation-for="Receita.ModoPreparo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -72,10 +82,7 @@
                 </select>
                 <span asp-validation-for="Receita.CategoriaId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Receita.DataCriacao" class="control-label"></label>
-                <span asp-validation-for="Receita.DataCriacao" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
