@@ -3,9 +3,12 @@ using ChefsTable.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+
 
 namespace Chef_sTable.Pages.Receitas
 {
+   
     public class CreateModel : PageModel
     {
         private readonly ChefContext _context;
@@ -18,6 +21,8 @@ namespace Chef_sTable.Pages.Receitas
         [BindProperty]
         public Receita Receita { get; set; } = default!;
 
+        [BindProperty]
+        public List<IFormFile> Imagens { get; set; } = new();
         public SelectList UsuariosSL { get; set; } = default!;
         public SelectList CategoriasSL { get; set; } = default!;
 
@@ -59,7 +64,32 @@ namespace Chef_sTable.Pages.Receitas
             Receita.DataCriacao = DateTime.Now;
 
             _context.Receitas.Add(Receita);
-            await _context.SaveChangesAsync();
+
+            if (Imagens != null && Imagens.Count > 0)
+            {
+                string pastaUploads = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot/uploads/receitas");
+
+                if (!Directory.Exists(pastaUploads))
+                    Directory.CreateDirectory(pastaUploads);
+
+                foreach (var imagem in Imagens)
+                {
+                    string nomeArquivo = Guid.NewGuid() + Path.GetExtension(imagem.FileName);
+                    string caminhoCompleto = Path.Combine(pastaUploads, nomeArquivo);
+
+                    using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+                    {
+                        await imagem.CopyToAsync(stream);
+                    }
+
+                    Receita.Fotos.Add(new Foto
+                    {
+                        Url = "/uploads/receitas/" + nomeArquivo
+                    });
+                }
+                }
+                await _context.SaveChangesAsync();
             
             TempData["Success"] = "Sua receita foi postada com sucesso!";
 

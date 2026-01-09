@@ -11,15 +11,18 @@ namespace ChefsTable.Models
         public string Titulo { get; set; }
 
         [Required]
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
         [Required]
         public string Ingredientes { get; set; }
 
         [Required]
+        [Display(Name = "Modo de Preparo")]
         public string ModoPreparo { get; set; } 
 
         [Required]
+        [Display(Name = "Tempo de Preparo")]
         public int TempoPreparo { get; set; }
         public int UsuarioId { get; set; }
         public Usuario? Usuario { get; set; }
@@ -48,10 +51,12 @@ namespace ChefsTable.Models
 
         public Tag? Tags { get; set; }
 
+        [Display(Name = "Categoria")]
         public int CategoriaId { get; set; }
         public Categoria? Categoria { get; set; }
 
         public ICollection<Avaliacao> Avaliacoes { get; set; } = new List<Avaliacao>();
+        [Display(Name = "Data De criação")]
         public DateTime DataCriacao { get; set; }
         public ICollection<Foto> Fotos { get; set; } = new List<Foto>();
         public ICollection<Comentario> Comentarios { get; set; } = new List<Comentario>();

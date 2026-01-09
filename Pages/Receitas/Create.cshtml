@@ -12,7 +12,7 @@
     <hr />
     <div class="row">
     <div class="col-md-4">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Receita.Titulo" class="control-label"></label>
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Receita.ModoPreparo" class="control-label"></label>
-                <textarea asp-for="Receita.Descricao"
+                <textarea asp-for="Receita.ModoPreparo"
                           class="form-control"
                           rows="8"
                           placeholder="Descreva detalhadamente o passo a passo,como tempo de cozimento, dicas adicionais..."></textarea>
@@ -82,10 +82,25 @@
                 </select>
                 <span asp-validation-for="Receita.CategoriaId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label>Imagens da Receita</label>
+
+                <input type="file"
+                       class="form-control"
+                       name="Imagens"
+                       multiple
+                       accept="image/*"
+                       onchange="previewImagens(this)" />
+
+                <div id="preview" class="d-flex flex-wrap mt-3"></div>
+            </div>
+
+            <div id="preview" class="d-flex flex-wrap mt-3"></div>
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
@@ -97,3 +112,30 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    function previewImagens(input) {
+        const preview = document.getElementById('preview');
+        preview.innerHTML = "";
+
+        if (input.files) {
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.className = "m-2 rounded";
+                    img.style.width = "150px";
+                    img.style.height = "150px";
+                    img.style.objectFit = "cover";
+
+                    preview.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+</script>
+
+

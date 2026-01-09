@@ -28,7 +28,9 @@ namespace Chef_sTable.Pages.Receitas
                 return NotFound();
             }
 
-            var receita = await _context.Receitas.FirstOrDefaultAsync(m => m.Id == id);
+            var receita = await _context.Receitas
+                .Include(r => r.Fotos)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (receita is not null)
             {

@@ -1,73 +1,78 @@
 ﻿@page
 @model Chef_sTable.Pages.Receitas.DetailsModel
 
-@{
-    ViewData["Title"] = "Details";
+
+<link rel="stylesheet" href="~/css/receita-galeria.css" />
+<script src="~/js/receita-galeria.js" defer></script>
+
+@if (Model.Receita.Fotos != null && Model.Receita.Fotos.Any())
+{
+    var capa = Model.Receita.Fotos.First();
+
+    <!-- CAPA -->
+    <section class="capa-wrapper">
+        <img id="capaImagem"
+             src="@capa.Url"
+             class="img-capa"
+             onclick="abrirModal(this.src)" />
+
+        <div class="overlay-capa">
+            <h1 class="titulo-receita">@Model.Receita.Titulo</h1>
+            <span class="autor-receita">
+                Criado por <strong>@(Model.Receita.Usuario?.Nome ?? "Usuário")</strong>
+            </span>
+        </div>
+    </section>
+
+    <!-- MINI GALERIA -->
+    @if (Model.Receita.Fotos.Count > 1)
+    {
+        <div class="mini-galeria">
+            @foreach (var foto in Model.Receita.Fotos)
+            {
+                <img src="@foto.Url"
+                     class="img-mini"
+                     onclick="trocarCapa('@foto.Url')" />
+            }
+        </div>
+    }
 }
 
-<h1>Details</h1>
+<!-- MODAL -->
+<div id="modalFoto" class="modal-foto" onclick="fecharModal()">
+    <img id="imgModal">
+</div>
 
-<div>
-    <h4>Receita</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.Titulo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.Titulo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.Descricao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.Descricao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.Ingredientes)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.Ingredientes)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.ModoPreparo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.ModoPreparo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.TempoPreparo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.TempoPreparo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.Usuario)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.Usuario.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.Dificuldade)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.Dificuldade)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.Tags)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.Tags)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Receita.DataCriacao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Receita.DataCriacao)
-        </dd>
-    </dl>
+<!-- RESTANTE DO CONTEÚDO -->
+<section class="conteudo-receita">
+
+    <div class="info-receita">
+        <span>
+            <h5>#@Model.Receita.Tags </h5>
+        </span>
+        <span>
+            <h4>Nível de Dificuldade</h4>
+            <p class="texto-centralizado">@Model.Receita.Dificuldade</p>
+        </span>
+        <span>
+            <h4>Tempo de preparo</h4>
+            <p class="texto-centralizado">@Model.Receita.TempoPreparo minutos</p>
+        </span>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Receita.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+
+    <div class="conteudo-receita">
+
+        <h3>Descrição</h3>
+        <p>@Model.Receita.Descricao</p>
+
+        <h3>Ingredientes</h3>
+        <p>@Model.Receita.Ingredientes</p>
+
+        <h3>Modo de Preparo</h3>
+        <p>@Model.Receita.ModoPreparo</p>
+
+    </div>
+
+  
+    
+</section>
