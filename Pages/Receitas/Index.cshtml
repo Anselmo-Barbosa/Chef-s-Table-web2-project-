@@ -1,90 +1,53 @@
 ﻿@page
 @model Chef_sTable.Pages.Receitas.IndexModel
 
-@{
-    ViewData["Title"] = "Index";
-}
+<link rel="stylesheet" href="~/css/receita-cards.css" />
 
-<h1>Receitas</h1>
+<div class="topo-acoes">
+    <a asp-page="Create" class="btn-criar">+ Criar nova receita</a>
+</div>
 
-@if (TempData["Success"] != null)
+<section class="lista-receitas">
+
+@foreach (var item in Model.Receita)
 {
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
+    var capa = item.Fotos?.FirstOrDefault();
+
+        <div class="card-receita">
+
+            <a asp-page="./Details" asp-route-id="@item.Id" class="card-link">
+
+                <!-- CAPA -->
+                <img src="@(capa?.Url ?? "/img/sem-foto.jpg")"
+                     class="card-img" />
+
+                <div class="card-body">
+
+                    <!-- AUTOR -->
+                    <div class="card-autor">
+                        <img src="/img/avatar-padrao.png" class="autor-avatar" />
+                        <span class="autor-nome">
+                            @item.Usuario?.Nome
+                        </span>
+                    </div>
+
+                    <h3>@item.Titulo</h3>
+
+                    <p class="card-descricao">
+                        @item.Descricao
+                    </p>
+
+                    <span class="card-info">
+                        ⏱ @item.TempoPreparo min · ⚙ @item.Dificuldade
+                    </span>
+
+                </div>
+            </a>
+
+            <div class="card-acoes">
+                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-editar">Editar</a>
+                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn-deletar">Deletar</a>
+            </div>
+
+        </div>
 }
-<p>
-    <a asp-page="Create">Criar nova</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].Ingredientes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].ModoPreparo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].TempoPreparo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].Usuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].Dificuldade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].Tags)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Receita[0].DataCriacao)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Receita) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ingredientes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModoPreparo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TempoPreparo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dificuldade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCriacao)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Detalhes</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Deletar</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>

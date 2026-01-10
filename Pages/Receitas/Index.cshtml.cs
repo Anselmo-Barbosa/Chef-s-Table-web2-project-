@@ -24,6 +24,7 @@ namespace Chef_sTable.Pages.Receitas
         public async Task OnGetAsync()
         {
             Receita = await _context.Receitas
+                .Include(r => r.Fotos)
                 .Include(r => r.Usuario).ToListAsync();
         }
     }
