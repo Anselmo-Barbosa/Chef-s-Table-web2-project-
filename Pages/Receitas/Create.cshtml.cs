@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 
-
 namespace Chef_sTable.Pages.Receitas
 {
-   
     public class CreateModel : PageModel
     {
         private readonly ChefContext _context;
@@ -19,22 +17,20 @@ namespace Chef_sTable.Pages.Receitas
         }
 
         [BindProperty]
-        public Receita Receita { get; set; } = default!;
+        public Receita Receita { get; set; } = new();
 
         [BindProperty]
         public List<IFormFile> Imagens { get; set; } = new();
-        public SelectList UsuariosSL { get; set; } = default!;
+
         public SelectList CategoriasSL { get; set; } = default!;
 
         public IActionResult OnGet()
         {
-            Receita = new Receita();
+            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
 
-            UsuariosSL = new SelectList(
-                _context.Usuarios.ToList(),
-                "Id",
-                "Nome"
-            );
+            // Só cria receita logado
+            if (usuarioId == null)
+                return RedirectToPage("/Auth/Login");
 
             CategoriasSL = new SelectList(
                 _context.Categorias.ToList(),
@@ -45,8 +41,14 @@ namespace Chef_sTable.Pages.Receitas
             return Page();
         }
 
+        
         public async Task<IActionResult> OnPostAsync()
         {
+            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+
+            if (usuarioId == null)
+                return RedirectToPage("/Auth/Login");
+
             if (!ModelState.IsValid)
             {
                 CategoriasSL = new SelectList(
@@ -58,17 +60,22 @@ namespace Chef_sTable.Pages.Receitas
 
                 return Page();
             }
-            //Mocagem temporaria
-            Receita.UsuarioId = 1; 
 
+            // ✔ Usuário logado
+            Receita.UsuarioId = usuarioId.Value;
             Receita.DataCriacao = DateTime.Now;
 
             _context.Receitas.Add(Receita);
 
+            // ============================
+            // Upload de imagens
+            // ============================
             if (Imagens != null && Imagens.Count > 0)
             {
-                string pastaUploads = Path.Combine(Directory.GetCurrentDirectory(),
-                    "wwwroot/uploads/receitas");
+                string pastaUploads = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot/uploads/receitas"
+                );
 
                 if (!Directory.Exists(pastaUploads))
                     Directory.CreateDirectory(pastaUploads);
@@ -78,19 +85,18 @@ namespace Chef_sTable.Pages.Receitas
                     string nomeArquivo = Guid.NewGuid() + Path.GetExtension(imagem.FileName);
                     string caminhoCompleto = Path.Combine(pastaUploads, nomeArquivo);
 
-                    using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
-                    {
-                        await imagem.CopyToAsync(stream);
-                    }
+                    using var stream = new FileStream(caminhoCompleto, FileMode.Create);
+                    await imagem.CopyToAsync(stream);
 
                     Receita.Fotos.Add(new Foto
                     {
                         Url = "/uploads/receitas/" + nomeArquivo
                     });
                 }
-                }
-                await _context.SaveChangesAsync();
-            
+            }
+
+            await _context.SaveChangesAsync();
+
             TempData["Success"] = "Sua receita foi postada com sucesso!";
 
             return RedirectToPage("./Index");

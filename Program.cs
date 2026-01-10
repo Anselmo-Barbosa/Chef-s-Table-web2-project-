@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Razor Pages
 builder.Services.AddRazorPages();
+builder.Services.AddSession();
 
 // DbContext
 builder.Services.AddDbContext<ChefContext>(options =>
@@ -21,7 +22,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseSession();
 app.UseAuthorization();
+
 
 app.MapRazorPages();
 
