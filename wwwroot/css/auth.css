@@ -3,7 +3,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f4f6f8;
+
+    background-image: url('/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .auth-card {
