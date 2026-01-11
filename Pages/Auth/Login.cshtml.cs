@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-using ChefsTable.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace Chef_sTable.Pages.Auth
 {
@@ -32,6 +29,8 @@ namespace Chef_sTable.Pages.Auth
 
             var usuario = _context.Usuarios
                 .FirstOrDefault(u => u.Email == Email && u.Senha == Senha);
+
+
 
             if (usuario == null)
             {

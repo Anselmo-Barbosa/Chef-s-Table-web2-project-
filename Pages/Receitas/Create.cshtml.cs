@@ -61,15 +61,14 @@ namespace Chef_sTable.Pages.Receitas
                 return Page();
             }
 
-            // ✔ Usuário logado
+            // Usuário logado
             Receita.UsuarioId = usuarioId.Value;
             Receita.DataCriacao = DateTime.Now;
 
             _context.Receitas.Add(Receita);
 
-            // ============================
             // Upload de imagens
-            // ============================
+          
             if (Imagens != null && Imagens.Count > 0)
             {
                 string pastaUploads = Path.Combine(
@@ -97,7 +96,7 @@ namespace Chef_sTable.Pages.Receitas
 
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = "Sua receita foi postada com sucesso!";
+            TempData["ReceitaSuccess"] = "Sua receita foi postada com sucesso!";
 
             return RedirectToPage("./Index");
         }

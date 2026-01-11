@@ -38,6 +38,8 @@ namespace Chef_sTable.Pages.Usuarios
             _context.Usuarios.Add(Usuario);
             await _context.SaveChangesAsync();
 
+
+            TempData["RegistroSucesso"] = "Conta criada com sucesso! Faça login.";
             return RedirectToPage("./Index");
         }
     }
