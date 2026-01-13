@@ -1,37 +1,57 @@
 ﻿@page
+@using static ChefsTable.Models.Receita
 @model Chef_sTable.Pages.Receitas.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Receita";
 }
 
 <h1>Editar</h1>
 
 <h4>Receita</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-6">
+        <form method="post" enctype="multipart/form-data">
+
             <input type="hidden" asp-for="Receita.Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Receita.Titulo" class="control-label"></label>
-                <input asp-for="Receita.Titulo" class="form-control" />
+
+                <textarea asp-for="Receita.Titulo"
+                          class="form-control"
+                          placeholder="Dê um título ao seu prato"></textarea>
+
                 <span asp-validation-for="Receita.Titulo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Receita.Descricao" class="control-label"></label>
-                <input asp-for="Receita.Descricao" class="form-control" />
+
+                <textarea asp-for="Receita.Descricao"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Descreva a receita, origem, dicas..."></textarea>
+
                 <span asp-validation-for="Receita.Descricao" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Receita.Ingredientes" class="control-label"></label>
-                <input asp-for="Receita.Ingredientes" class="form-control" />
+                <textarea asp-for="Receita.Ingredientes"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Descreva todos os ingredientes usados"></textarea>
                 <span asp-validation-for="Receita.Ingredientes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Receita.ModoPreparo" class="control-label"></label>
-                <input asp-for="Receita.ModoPreparo" class="form-control" />
+                <textarea asp-for="Receita.ModoPreparo"
+                          class="form-control"
+                          rows="8"
+                          placeholder="Descreva detalhadamente o passo a passo,como tempo de cozimento, dicas adicionais..."></textarea>
                 <span asp-validation-for="Receita.ModoPreparo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,36 +60,105 @@
                 <span asp-validation-for="Receita.TempoPreparo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Receita.UsuarioId" class="control-label"></label>
-                <select asp-for="Receita.UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId" ></select>
-                <span asp-validation-for="Receita.UsuarioId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Receita.Dificuldade" class="control-label"></label>
-                <select asp-for="Receita.Dificuldade" class="form-control" ></select>
+                <label asp-for="Receita.Dificuldade"></label>
+                <select asp-for="Receita.Dificuldade"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<DificuldadeNivel>()">
+                </select>
                 <span asp-validation-for="Receita.Dificuldade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Receita.Tags" class="control-label"></label>
-                <select asp-for="Receita.Tags" class="form-control" ></select>
+                <label asp-for="Receita.Tags"></label>
+                <select asp-for="Receita.Tags"
+                        class="form-control"
+                        asp-items="Html.GetEnumSelectList<Tag>()">
+                </select>
                 <span asp-validation-for="Receita.Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Receita.DataCriacao" class="control-label"></label>
-                <input asp-for="Receita.DataCriacao" class="form-control" />
-                <span asp-validation-for="Receita.DataCriacao" class="text-danger"></span>
+                <label asp-for="Receita.CategoriaId" class="control-label"></label>
+
+                <select asp-for="Receita.CategoriaId"
+                        asp-items="Model.CategoriasSL"
+                        class="form-control">
+
+                    <option value="">Selecione uma categoria</option>
+                </select>
+                <span asp-validation-for="Receita.CategoriaId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <!-- imagens atuais -->
+            @if (Model.ImagensAtuais.Any())
+            {
+                <h5 class="mt-4">Imagens atuais</h5>
+
+                <div class="d-flex flex-wrap">
+                    @foreach (var foto in Model.ImagensAtuais)
+                    {
+                        <div class="position-relative m-2">
+                            <img src="@foto.Url"
+                                 class="rounded"
+                                 style="width:150px;height:150px;object-fit:cover;" />
+
+                            <input type="checkbox"
+                                   name="ImagensRemovidas"
+                                   value="@foto.Id"
+                                   class="position-absolute top-0 end-0 m-1" />
+                        </div>
+                    }
+                </div>
+
+                <small class="text-muted">Marque as imagens que deseja remover</small>
+            }
+
+            <!-- novas imagens -->
+            <div class="form-group mt-4">
+                <label>Adicionar novas imagens</label>
+                <input type="file"
+                       class="form-control"
+                       name="Imagens"
+                       multiple
+                       accept="image/*"
+                       onchange="previewImagens(this)" />
+
+                <div id="preview" class="d-flex flex-wrap mt-3"></div>
             </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Salvar alterações" class="btn btn-primary" />
+            </div>
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Voltar pra lista</a>
-</div>
+<a asp-page="Index">Voltar</a>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+<script>
+    function previewImagens(input) {
+        const preview = document.getElementById('preview');
+        preview.innerHTML = "";
+
+        if (input.files) {
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.className = "m-2 rounded";
+                    img.style.width = "150px";
+                    img.style.height = "150px";
+                    img.style.objectFit = "cover";
+                    preview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+</script>

@@ -1,80 +1,131 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ChefsTable;
+using ChefsTable.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ChefsTable;
-using ChefsTable.Models;
 
 namespace Chef_sTable.Pages.Receitas
 {
     public class EditModel : PageModel
     {
-        private readonly ChefsTable.ChefContext _context;
+        private readonly ChefContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public EditModel(ChefsTable.ChefContext context)
+        public EditModel(ChefContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         [BindProperty]
-        public Receita Receita { get; set; } = default!;
+        public Receita Receita { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        [BindProperty]
+        public List<IFormFile>? Imagens { get; set; }
+
+        [BindProperty]
+        public List<int>? ImagensRemovidas { get; set; }
+
+        public List<Foto> ImagensAtuais { get; set; } = new();
+
+        public SelectList CategoriasSL { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Receita = await _context.Receitas
+                .Include(r => r.Fotos)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
-            var receita =  await _context.Receitas.FirstOrDefaultAsync(m => m.Id == id);
-            if (receita == null)
-            {
+            if (Receita == null)
                 return NotFound();
-            }
-            Receita = receita;
-           ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Id");
+
+            ImagensAtuais = Receita.Fotos.ToList();
+
+            CategoriasSL = new SelectList(
+                _context.Categorias,
+                "Id",
+                "Nome",
+                Receita.CategoriaId
+            );
+
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                CategoriasSL = new SelectList(_context.Categorias, "Id", "Nome");
                 return Page();
             }
 
-            _context.Attach(Receita).State = EntityState.Modified;
+            var receitaDb = await _context.Receitas
+                .Include(r => r.Fotos)
+                .FirstOrDefaultAsync(r => r.Id == Receita.Id);
 
-            try
+            if (receitaDb == null)
+                return NotFound();
+
+            
+            receitaDb.Titulo = Receita.Titulo;
+            receitaDb.Descricao = Receita.Descricao;
+            receitaDb.Ingredientes = Receita.Ingredientes;
+            receitaDb.ModoPreparo = Receita.ModoPreparo;
+            receitaDb.TempoPreparo = Receita.TempoPreparo;
+            receitaDb.Dificuldade = Receita.Dificuldade;
+            receitaDb.Tags = Receita.Tags;
+            receitaDb.CategoriaId = Receita.CategoriaId;
+
+            // Remove imagens
+            if (ImagensRemovidas?.Any() == true)
             {
-                await _context.SaveChangesAsync();
+                var fotosRemover = receitaDb.Fotos
+                    .Where(f => ImagensRemovidas.Contains(f.Id))
+                    .ToList();
+
+                _context.Fotos.RemoveRange(fotosRemover);
             }
-            catch (DbUpdateConcurrencyException)
+
+            // Adiciona imagens
+            if (Imagens?.Any() == true)
             {
-                if (!ReceitaExists(Receita.Id))
+                foreach (var file in Imagens)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    var caminho = await SalvarImagemAsync(file);
+
+                    receitaDb.Fotos.Add(new Foto
+                    {
+                        Url = caminho
+                    });
                 }
             }
 
-            TempData["Success"] = "Sua receita foi editada com sucesso!";
+            await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            TempData["Success"] = "Receita atualizada com sucesso!";
+
+            return RedirectToPage("Index");
         }
 
-        private bool ReceitaExists(int id)
+        private async Task<string> SalvarImagemAsync(IFormFile file)
         {
-            return _context.Receitas.Any(e => e.Id == id);
+            var pasta = Path.Combine(_env.WebRootPath, "uploads");
+            Directory.CreateDirectory(pasta);
+
+            var nomeArquivo = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var caminhoFisico = Path.Combine(pasta, nomeArquivo);
+
+            using var stream = new FileStream(caminhoFisico, FileMode.Create);
+            await file.CopyToAsync(stream);
+
+            return "/uploads/" + nomeArquivo;
         }
     }
 }

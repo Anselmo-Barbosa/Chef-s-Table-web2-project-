@@ -7,6 +7,13 @@
     <a asp-page="Create" class="btn-criar">+ Criar nova receita</a>
 </div>
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["Success"]
+    </div>
+}
+
 <section class="lista-receitas">
 
 @foreach (var item in Model.Receita)
