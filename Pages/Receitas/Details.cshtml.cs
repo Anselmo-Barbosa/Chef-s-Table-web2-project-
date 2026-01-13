@@ -29,6 +29,7 @@ namespace Chef_sTable.Pages.Receitas
             }
 
             var receita = await _context.Receitas
+                .Include(r => r.Usuario)
                 .Include(r => r.Fotos)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
