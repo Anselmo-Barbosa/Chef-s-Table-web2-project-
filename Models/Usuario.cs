@@ -10,6 +10,6 @@ namespace ChefsTable.Models
         public string Senha { get; set; }
         public ICollection<Receita> Receitas { get; set; } = new List<Receita>();
         public ICollection<Comentario> Comentarios { get; set; } = new List<Comentario>();
-        public ICollection<Avaliacao> Avaliacoes { get; set; } = new List<Avaliacao>();
+        
     }
 }

@@ -8,18 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Avaliações\**" />
     <Compile Remove="wwwroot\NovaPasta1\**" />
     <Compile Remove="wwwroot\NovaPasta2\**" />
     <Compile Remove="wwwroot\NovaPasta3\**" />
     <Compile Remove="wwwroot\NovaPasta\**" />
+    <Content Remove="Pages\Avaliações\**" />
     <Content Remove="wwwroot\NovaPasta1\**" />
     <Content Remove="wwwroot\NovaPasta2\**" />
     <Content Remove="wwwroot\NovaPasta3\**" />
     <Content Remove="wwwroot\NovaPasta\**" />
+    <EmbeddedResource Remove="Pages\Avaliações\**" />
     <EmbeddedResource Remove="wwwroot\NovaPasta1\**" />
     <EmbeddedResource Remove="wwwroot\NovaPasta2\**" />
     <EmbeddedResource Remove="wwwroot\NovaPasta3\**" />
     <EmbeddedResource Remove="wwwroot\NovaPasta\**" />
+    <None Remove="Pages\Avaliações\**" />
     <None Remove="wwwroot\NovaPasta1\**" />
     <None Remove="wwwroot\NovaPasta2\**" />
     <None Remove="wwwroot\NovaPasta3\**" />
@@ -27,6 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Avaliacao.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\Comentario.css" />
+    <Content Remove="wwwroot\css\comentarios.css" />
     <Content Remove="wwwroot\css\Galeria.css" />
     <Content Remove="wwwroot\css\receita-galeria.cs" />
     <Content Remove="wwwroot\js\Galeria.js" />

@@ -55,7 +55,6 @@ namespace ChefsTable.Models
         public int CategoriaId { get; set; }
         public Categoria? Categoria { get; set; }
 
-        public ICollection<Avaliacao> Avaliacoes { get; set; } = new List<Avaliacao>();
         [Display(Name = "Data De criação")]
         public DateTime DataCriacao { get; set; }
         public ICollection<Foto> Fotos { get; set; } = new List<Foto>();

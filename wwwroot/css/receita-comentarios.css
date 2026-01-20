@@ -1,0 +1,37 @@
+﻿.estrelas {
+    display: inline-flex;
+    flex-direction: row-reverse;
+}
+
+    .estrelas input {
+        display: none;
+    }
+
+    .estrelas label {
+        font-size: 28px;
+        color: #ccc;
+        cursor: pointer;
+    }
+
+    .estrelas input:checked ~ label {
+        color: #f5c518;
+    }
+
+    .estrelas label:hover,
+    .estrelas label:hover ~ label {
+        color: #f5c518;
+    }
+
+.avaliacao-exibicao {
+    margin-top: 4px;
+}
+
+.estrela-cheia {
+    color: gold;
+    font-size: 16px;
+}
+
+.estrela-vazia {
+    color: #ccc;
+    font-size: 16px;
+}

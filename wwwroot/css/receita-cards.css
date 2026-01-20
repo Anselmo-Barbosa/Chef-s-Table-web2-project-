@@ -107,6 +107,7 @@
 .autor-avatar {
     width: 36px;
     height: 36px;
+    min-width: 36px; 
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #eee;
@@ -116,4 +117,12 @@
     font-size: .9rem;
     font-weight: 500;
     color: #555;
+}
+
+.icone-titulo {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    object-fit: cover;
+    display: flex;
 }

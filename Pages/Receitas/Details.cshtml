@@ -1,9 +1,13 @@
 ﻿@page
+@using Microsoft.EntityFrameworkCore
 @model Chef_sTable.Pages.Receitas.DetailsModel
 
-
 <link rel="stylesheet" href="~/css/receita-galeria.css" />
+<link rel="stylesheet" href="~/css/receita-comentarios.css" />
+
 <script src="~/js/receita-galeria.js" defer></script>
+
+
 
 @if (Model.Receita.Fotos != null && Model.Receita.Fotos.Any())
 {
@@ -18,8 +22,32 @@
 
         <div class="overlay-capa">
             <h1 class="titulo-receita">@Model.Receita.Titulo</h1>
+
             <span class="autor-receita">
                 Criado por <strong>@(Model.Receita.Usuario?.Nome ?? "Usuário")</strong>
+
+                <!-- mostra as estrelas de avaliação na capa -->
+                @if (Model.MediaAvaliacao > 0)
+                {
+                    <div class="avaliacao-exibicao mb-2">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Math.Round(Model.MediaAvaliacao))
+                            {
+                                <span class="estrela-cheia">★</span>
+                            }
+                            else
+                            {
+                                <span class="estrela-vazia">★</span>
+                            }
+                        }
+                        <small class="text-white">
+
+                            (@Model.MediaAvaliacao.ToString("0.0"))
+                        </small>
+                    </div>
+                }
+
             </span>
         </div>
     </section>
@@ -43,36 +71,225 @@
     <img id="imgModal">
 </div>
 
-<!-- RESTANTE DO CONTEÚDO -->
+<!-- CONTEÚDO DA RECEITA -->
 <section class="conteudo-receita">
 
     <div class="info-receita">
         <span>
-            <h5>#@Model.Receita.Tags </h5>
+            <h5>#@Model.Receita.Tags</h5>
         </span>
         <span>
-            <h4>Nível de Dificuldade</h4>
+            <div class="titulo-com-icone">
+                <img src="~/img/dificuldade-logo.png" class="icone-infos"
+                     style="width:36px;height:36px;" />
+                <h5>Dificuldade</h5>
+            </div>
             <p class="texto-centralizado">@Model.Receita.Dificuldade</p>
         </span>
         <span>
-            <h4>Tempo de preparo</h4>
+            <div class="titulo-com-icone">
+                <img src="~/img/relogio-logo.png" class="icone-infos"
+                     style="width:36px;height:36px;" />
+                <h5>Tempo de Preparo</h5>
+            </div>
             <p class="texto-centralizado">@Model.Receita.TempoPreparo minutos</p>
         </span>
-</div>
-
-    <div class="conteudo-receita">
-
-        <h3>Descrição</h3>
-        <p>@Model.Receita.Descricao</p>
-
-        <h3>Ingredientes</h3>
-        <p>@Model.Receita.Ingredientes</p>
-
-        <h3>Modo de Preparo</h3>
-        <p>@Model.Receita.ModoPreparo</p>
-
     </div>
 
-  
-    
+    <div class="conteudo-receita">
+        <h5>Descrição</h5>
+        <p>@Model.Receita.Descricao</p>
+
+        <div class="titulo-com-icone">
+            <img src="~/img/ingrediente-logo.jpg" class="icone-infos"
+             style="width:28px;height:28px;" />
+            <h5>Ingredientes</h5>
+        </div>
+
+        <p>@Model.Receita.Ingredientes</p>
+
+        <div class="titulo-com-icone">
+            <img src="~/img/descricao-logo.png" class="icone-infos"
+                 style="width:28px;height:28px;" />
+            <h5>Modo de Preparo</h5>
+        </div>
+        <p>@Model.Receita.ModoPreparo</p>
+    </div>
+
+    <hr />
+
+    <!-- ===== COMENTÁRIOS ===== -->
+    <section id="comentarios" class="comentarios">
+
+        <h3>Comentários</h3>
+
+        @if (Model.Comentarios != null && Model.Comentarios.Any())
+        {
+            @foreach (var comentario in Model.Comentarios)
+            {
+                <div class="comentario-box mb-3 p-3 rounded shadow-sm">
+
+                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+
+                        <img src="/img/avatar-padrao.png"
+                             class="autor-avatar"
+                             style="width:28px;height:28px;" />
+
+                        <div style="flex:1">
+
+                            <div class="d-flex justify-content-between align-items-start">
+
+                                <div>
+                                    <strong>@(comentario.Usuario?.Nome ?? "Usuário")</strong>
+                                    <small class="text-muted">
+                                        • @comentario.DataCriacao.ToString("dd/MM/yyyy HH:mm")
+                                    </small>
+
+                                    <!-- AVALIAÇÃO -->
+                                    <div class="avaliacao-exibicao">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= comentario.Nota)
+                                            {
+                                                <span class="estrela-cheia">★</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="estrela-vazia">★</span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- AÇÕES SÓ PARA O DONO -->
+                                @if (Model.UsuarioLogadoId == comentario.UsuarioId)
+                                {
+                                    <div class="acoes-comentario text-end">
+                                        <form method="post"
+                                              asp-page-handler="EditarComentario"
+                                              asp-route-id="@Model.Receita.Id"
+                                              style="display:inline">
+
+                                            <input type="hidden" name="comentarioId" value="@comentario.Id" />
+
+                                            <button type="submit"
+                                                    class="btn btn-link p-0 text-warning"
+                                                    style="font-size: 0.9rem;">
+                                                Editar
+                                            </button>
+                                        </form>
+
+                                        <form method="post"
+                                              asp-page-handler="ExcluirComentario"
+                                              asp-route-id="@Model.Receita.Id"
+                                              asp-route-comentarioId="@comentario.Id"
+                                              style="display:inline"
+                                              onsubmit="return confirm('Deseja excluir este comentário?');">
+
+                                            <button type="submit"
+                                                    class="btn btn-link p-0 text-danger"
+                                                    style="font-size: 0.9rem;">
+                                                Excluir
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                            </div>
+
+                            @if (Model.ComentarioEmEdicaoId == comentario.Id)
+                            {
+                                <form method="post" asp-page-handler="SalvarEdicao"
+                                      asp-route-id="@Model.Receita.Id">
+
+                                    <input type="hidden" asp-for="ComentarioEmEdicaoId" />
+
+                                    <textarea asp-for="TextoEdicao"
+                                              class="form-control mb-2"
+                                              rows="3"></textarea>
+
+                                    <button class="btn btn-sm btn-success">Salvar</button>
+                                    <a asp-route-id="@Model.Receita.Id"
+                                       class="btn btn-sm btn-secondary">Cancelar</a>
+                                </form>
+                            }
+                            else
+                            {
+                                <p class="mt-2 mb-0">@comentario.Texto</p>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted">Ainda não há comentários.</p>
+        }
+
+       
+
+        <!-- FORMULÁRIO DE COMENTÁRIO -->
+        @if (HttpContext.Session.GetInt32("UsuarioId") != null)
+        {
+            <form method="post" asp-page-handler="Comentario"
+                asp-route-id="@Model.Receita.Id">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                <!-- AVALIAÇÃO -->
+                <div class="avaliacao mb-2">
+                    <span class="me-2">Sua avaliação:</span>
+
+                    <div class="estrelas">
+                        <input asp-for="Nota" type="radio" id="star5" value="5" />
+                        <label for="star5">★</label>
+
+                        <input asp-for="Nota" type="radio" id="star4" value="4" />
+                        <label for="star4">★</label>
+
+                        <input asp-for="Nota" type="radio" id="star3" value="3" />
+                        <label for="star3">★</label>
+
+                        <input asp-for="Nota" type="radio" id="star2" value="2" />
+                        <label for="star2">★</label>
+
+                        <input asp-for="Nota" type="radio" id="star1" value="1" />
+                        <label for="star1">★</label>
+                    </div>
+
+                    <span asp-validation-for="Nota" class="text-danger"></span>
+
+                    
+
+                </div>
+
+                <div class="form-group">
+                    <textarea asp-for="NovoComentario"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Escreva seu comentário..."></textarea>
+                    <span asp-validation-for="NovoComentario" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-2">
+                    Avaliar e comentar
+                </button>
+            </form>
+        }
+        else
+        {
+            <p>
+                <a asp-page="/Auth/Login">Faça login</a> para comentar.
+            </p>
+        }
+
+    </section>
+
 </section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
