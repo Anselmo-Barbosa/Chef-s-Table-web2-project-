@@ -143,7 +143,7 @@ namespace Chef_sTable.Pages.Receitas
             _context.Comentarios.Remove(comentario);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage(new { id });
+            return Redirect($"/Receitas/Details?id={id}#comentarios");
         }
 
         public async Task<IActionResult> OnPostEditarComentarioAsync(int id, int comentarioId)
@@ -163,14 +163,7 @@ namespace Chef_sTable.Pages.Receitas
             TextoEdicao = comentario.Texto;
 
             await OnGetAsync(id);
-
-
-            return Redirect(Url.Page(
-    "/Receitas/Details",
-    null,
-    new { id },
-    "comentarios"
-));
+            return Page();
         }
 
         public async Task<IActionResult> OnPostSalvarEdicaoAsync(int id)
@@ -189,12 +182,7 @@ namespace Chef_sTable.Pages.Receitas
 
             await _context.SaveChangesAsync();
 
-            return Redirect(Url.Page(
-    "/Receitas/Details",
-    null,
-    new { id },
-    "comentarios"
-));
+            return Redirect($"/Receitas/Details?id={id}#comentarios");
         }
     }
 }
