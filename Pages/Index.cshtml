@@ -1,14 +1,134 @@
 ﻿@page
 @model IndexModel
 
-<h1>Chef's Table</h1>
+<link rel="stylesheet" href="~/css/home.css" />
+<link rel="stylesheet" href="~/css/receita-cards.css" />
+
+<div class="navbar-container">
+    <div class="logo-home">
+    <img src="~/img/chef-logo.png">
+    </div>
+</div>
+
+<header class="topbar">
+    <nav class="menu">
+
+        <a asp-page="/Index"
+           class="@(Model.CategoriaId == null ? "ativo" : "")">
+            TODAS
+        </a>
+
+        @foreach (var categoria in Model.Categorias)
+        {
+            <a asp-page="/Index"
+               asp-route-CategoriaId="@categoria.Id"
+               class="@(Model.CategoriaId == categoria.Id ? "ativo" : "")">
+                @categoria.Nome
+            </a>
+        }
+    </nav>
+
+    <div class="menu-acao">
+
+    @if (HttpContext.Session.GetInt32("UsuarioId") != null)
+    {
+        <a asp-page="/Receitas/Create"
+           class="bt-criar-receita">
+            Crie sua receita
+        </a>
+    }
+    else
+    {
+            <a asp-page="/Auth/Login"
+               class="bt-criar-receita">
+                Crie sua receita
+            </a>
+        }
+    </div>
+</header>
+
+<section class="hero">
+    <h1>Encontre ou compartilhe sua melhor receita!</h1>
+    <p>Receitas práticas, rápidas e feitas por quem ama cozinhar.</p>
+
+    <div class="sugestoes">
+        <span>Sopas</span>
+        <span>Espaguete</span>
+        <span>Bolo de Cenoura</span>
+        <span>Pão de Queijo</span>
+    </div>
+</section>
+
+@if (!Model.ReceitasDestaque.Any())
+{
+    <div class="mensagem-semreceitas">
+        <p class="text-muted">Nenhuma receita nesta categoria.</p>
+    </div>
+    
+}
+
+<section class="cards-home">
+
+    @foreach (var item in Model.ReceitasDestaque)
+    {
+        var capa = item.Fotos?.FirstOrDefault();
+
+        <a asp-page="/Receitas/Details"
+           asp-route-id="@item.Id"
+           class="card-home">
+
+            <!-- IMAGEM -->
+            <div class="card-img-wrapper">
+                <img src="@(capa?.Url ?? "/img/sem-foto.jpg")" alt="@item.Titulo" />
+
+                <!-- OVERLAY -->
+                <div class="card-overlay">
+                    <div class="card-rating">
+                        @{
+                            var media = item.Comentarios.Any()
+                            ? item.Comentarios.Average(c => c.Nota)
+                            : 0;
+                        }
+
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Math.Round(media))
+                            {
+                                <span class="estrela-cheia">★</span>
+                            }
+                            else
+                            {
+                                <span class="estrela-vazia">★</span>
+                            }
+                        }
+
+                        @if (media > 0)
+                        {
+                            <span class="qtd">(@media.ToString("0.0"))</span>
+                        }
+                    </div>
+
+                    <h3>@item.Titulo</h3>
+
+                </div>
+            </div>
+
+            
+            <div class="card-info">
+                <span class="autor">@item.Usuario?.Nome</span>
+                <span class="meta">
+                    ⏱ @item.TempoPreparo min · ⚙ @item.Dificuldade
+                </span>
+            </div>
+
+        </a>
+    }
+
+</section>
 
 <p>Escolha o que deseja testar:</p>
 
 <ul>
-    <li>
-        <a asp-page="/Receitas/Index">Gerenciar Receitas</a>
-    </li>
     <li>
         <a asp-page="/Categorias/Index">Gerenciar Categorias</a>
     </li>

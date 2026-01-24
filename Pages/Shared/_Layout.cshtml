@@ -38,7 +38,7 @@
                         </li>
                     </ul>
 
-                    <!-- ÁREA DE LOGIN / USUÁRIO -->
+                    <!-- Área de Login/nome do usuario-->
                     <div class="d-flex align-items-center">
 
                         @if (usuarioNome != null)
@@ -47,18 +47,20 @@
                                 Olá, <strong>@usuarioNome</strong>
                             </span>
                             <a class="btn btn-outline-danger btn-sm"
-                               asp-page="/Auth/Logout">
+                               asp-page="/Auth/Logout"
+                               style="color : #8B4513">
+                                
                                 Sair
                             </a>
                         }
                         else if (!path.Contains("/auth/login"))
                         {
                             <a class="btn btn-outline-primary btn-sm"
-                               asp-page="/Auth/Login">
+                               asp-page="/Auth/Login"
+                               style="color : #8B4513">
                                 Entrar
                             </a>
                         }
-
                     </div>
                 </div>
             </div>

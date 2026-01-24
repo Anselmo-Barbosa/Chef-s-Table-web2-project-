@@ -2,8 +2,9 @@
 @using Microsoft.EntityFrameworkCore
 @model Chef_sTable.Pages.Receitas.DetailsModel
 
-<link rel="stylesheet" href="~/css/receita-galeria.css" />
 <link rel="stylesheet" href="~/css/receita-comentarios.css" />
+<link rel="stylesheet" href="~/css/receita-galeria.css" />
+
 
 <script src="~/js/receita-galeria.js" defer></script>
 
@@ -13,7 +14,7 @@
 {
     var capa = Model.Receita.Fotos.First();
 
-    <!-- CAPA -->
+    <!-- Capa -->
     <section class="capa-wrapper">
         <img id="capaImagem"
              src="@capa.Url"
@@ -118,7 +119,7 @@
 
     <hr />
 
-    <!-- ===== COMENTÁRIOS ===== -->
+    <!---- COMENTÁRIOS ===== -->
     <section id="comentarios" class="comentarios">
 
         <h3>Comentários</h3>

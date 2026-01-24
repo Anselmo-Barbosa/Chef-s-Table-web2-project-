@@ -1,128 +1,89 @@
-﻿.topo-acoes {
+﻿/* GRID */
+.cards-home {
     max-width: 1200px;
-    margin: 30px auto;
+    margin: 40px auto;
     padding: 0 20px;
-}
-
-.btn-criar {
-    background: #2d7ef7;
-    color: #fff;
-    padding: 10px 18px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.lista-receitas {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 24px;
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px 40px;
 }
 
-/* card */
-.card-receita {
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
-    display: flex;
-    flex-direction: column;
-}
-
-/* link detalhes  */
-.card-link {
+/* CARD */
+.card-home {
     text-decoration: none;
     color: inherit;
-}
-
-.card-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 16px;
-}
-
-    .card-body h3 {
-        margin: 0 0 6px;
-        font-size: 1.1rem;
-    }
-
-.card-descricao {
-    font-size: .9rem;
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.card-info {
-    font-size: .85rem;
-    color: #444;
     display: block;
 }
 
-.card-data {
-    font-size: .8rem;
-    color: #999;
-}
-
-/* açoes */
-.card-acoes {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-top: 1px solid #eee;
-}
-
-.btn-editar {
-    color: #2d7ef7;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.btn-deletar {
-    color: #e53935;
-    text-decoration: none;
-    font-weight: 600;
-}
-.card-descricao {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+/* IMAGEM */
+.card-img-wrapper {
+    position: relative;
+    height: 200px;
+    border-radius: 14px;
     overflow: hidden;
 }
 
-/*autor*/
-.card-autor {
+    .card-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+/* OVERLAY */
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( to top, rgba(0,0,0,.75), rgba(0,0,0,.15) );
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+    .card-overlay h3 {
+        color: #fff;
+        font-size: 1.1rem;
+        margin: 4px 0 0;
+    }
+
+
+.estrela-cheia {
+    color: #ffc107;
+}
+
+.estrela-vazia {
+    color: rgba(255,255,255,.4);
+}
+
+.card-rating {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 2px;
+    margin-bottom: 4px;
 }
+        .card-rating .qtd {
+            color: #fff;
+            font-size: .75rem;
+            margin-left: 6px;
+        }
 
-.autor-avatar {
-    width: 36px;
-    height: 36px;
-    min-width: 36px; 
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #eee;
-}
+        /* INFO ABAIXO */
+        .card-info {
+            margin-top: 8px;
+            font-size: .85rem;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
 
-.autor-nome {
-    font-size: .9rem;
-    font-weight: 500;
-    color: #555;
-}
+            .card-info .autor {
+                font-weight: 600;
+                color: #222;
+            }
+    
 
-.icone-titulo {
-    width: 25px;
-    height: 25px;
-    min-width: 25px;
-    object-fit: cover;
-    display: flex;
-}
+
+
+

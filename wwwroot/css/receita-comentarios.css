@@ -35,3 +35,8 @@
     color: #ccc;
     font-size: 16px;
 }
+.comentarios {
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: left;
+}

@@ -42,7 +42,7 @@ namespace Chef_sTable.Pages.Auth
             HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
             HttpContext.Session.SetString("UsuarioNome", usuario.Nome);
 
-            return RedirectToPage("/Receitas/Index");
+            return RedirectToPage("/Index");
         }
     }
 }

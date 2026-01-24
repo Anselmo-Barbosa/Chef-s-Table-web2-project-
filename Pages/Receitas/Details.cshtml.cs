@@ -97,14 +97,14 @@ namespace Chef_sTable.Pages.Receitas
             {
                 ModelState.AddModelError(string.Empty, "Você já avaliou esta receita.");
                 await OnGetAsync(id);
-                return Page();
+                return Redirect($"/Receitas/Details?id={id}#comentarios");
             }
        
             if (Nota < 1 || Nota > 5)
             {
                 ModelState.AddModelError("Nota", "Selecione uma nota de 1 a 5.");
                 await OnGetAsync(id);
-                return Page();
+                return Redirect($"/Receitas/Details?id={id}#comentarios");
             }
 
            
@@ -124,7 +124,7 @@ namespace Chef_sTable.Pages.Receitas
 
             await _context.SaveChangesAsync();
 
-            return RedirectToPage(new { id });
+            return Redirect($"/Receitas/Details?id={id}#comentarios");
         }
 
         public async Task<IActionResult> OnPostExcluirComentarioAsync(int comentarioId, int id)
