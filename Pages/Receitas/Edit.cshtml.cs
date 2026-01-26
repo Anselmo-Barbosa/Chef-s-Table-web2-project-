@@ -111,7 +111,7 @@ namespace Chef_sTable.Pages.Receitas
 
             TempData["Success"] = "Receita atualizada com sucesso!";
 
-            return RedirectToPage("Index");
+            return RedirectToPage("/Usuarios/Details");
         }
 
         private async Task<string> SalvarImagemAsync(IFormFile file)

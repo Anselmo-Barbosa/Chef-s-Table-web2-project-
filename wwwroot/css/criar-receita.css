@@ -1,0 +1,75 @@
+﻿.page-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ff6a00;
+}
+
+.form-receita {
+    max-width: 720px;
+    margin: 0 auto;
+    color: #8B4513;
+}
+
+.form-section {
+    background: #fff;
+    padding: 22px;
+    border-radius: 14px;
+    margin-bottom: 26px;
+    font-weight:200;
+    box-shadow: 0 8px 20px rgba(0,0,0,.06);
+}
+
+    .form-section h2 {
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+        color: #ff6a00;
+     
+    }
+
+.tempo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tempo-label {
+    font-size: .9rem;
+    color: #666;
+}
+
+.preview-imagens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.preview-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+.link-voltar {
+    display: inline-block;
+    margin-top: 20px;
+    color: #8B4513;
+    text-decoration: none;
+}
+
+.bt-publicar {
+    background: #ff6a00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+    .bt-publicar:hover {
+        background: #e85c00;
+    }

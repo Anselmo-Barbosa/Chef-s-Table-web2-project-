@@ -7,22 +7,23 @@ namespace ChefsTable.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O título é obrigatório")]
         public string Titulo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A descrição é obrigatória")]
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Os ingredientes são necessarios")]
         public string Ingredientes { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "É necessario detalhar o modo de preparo")]
         [Display(Name = "Modo de Preparo")]
-        public string ModoPreparo { get; set; } 
+        public string ModoPreparo { get; set; }
 
-        [Required]
-        [Display(Name = "Tempo de Preparo")]
+        [Required(ErrorMessage = "O tempo deve ser entre 1 e 600 minutos")]
+        [Display(Name = "Tempo de Preparo (em minutos)")]
+        [Range(1, 600, ErrorMessage = "O tempo deve ser entre 1 e 600 minutos")]
         public int TempoPreparo { get; set; }
         public int UsuarioId { get; set; }
         public Usuario? Usuario { get; set; }
@@ -52,7 +53,9 @@ namespace ChefsTable.Models
         public Tag? Tags { get; set; }
 
         [Display(Name = "Categoria")]
+        [Required(ErrorMessage = "A categoria é obrigatória")]
         public int CategoriaId { get; set; }
+        
         public Categoria? Categoria { get; set; }
 
         [Display(Name = "Data De criação")]

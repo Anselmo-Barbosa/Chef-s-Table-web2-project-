@@ -13,6 +13,7 @@
 
     @{
         var usuarioNome = Context.Session.GetString("UsuarioNome");
+        var usuarioId = User.FindFirst("UsuarioId")?.Value;
         var path = Context.Request.Path.Value?.ToLower() ?? "";
     }
 
@@ -44,7 +45,11 @@
                         @if (usuarioNome != null)
                         {
                             <span class="me-3">
-                                Olá, <strong>@usuarioNome</strong>
+                                Olá, <a asp-page="/Usuarios/Details"                                     
+                                        class="fw-bold text-decoration-none"
+                                        style="color:#8B4513">
+                                    @usuarioNome
+                                </a>
                             </span>
                             <a class="btn btn-outline-danger btn-sm"
                                asp-page="/Auth/Logout"
@@ -60,7 +65,7 @@
                                style="color : #8B4513">
                                 Entrar
                             </a>
-                        }
+                        }                        
                     </div>
                 </div>
             </div>

@@ -20,24 +20,28 @@ namespace Chef_sTable.Pages.Usuarios
         }
 
         public Usuario Usuario { get; set; } = default!;
+        public IList<Receita> Receita { get; set; } = new List<Receita>();
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (id == null)
-            {
+            var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+
+            if (usuarioId == null)
+                return RedirectToPage("/Auth/Login");
+
+            Usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.Id == usuarioId);
+
+            if (Usuario == null)
                 return NotFound();
-            }
 
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(m => m.Id == id);
+            Receita = await _context.Receitas
+            .Where(r => r.UsuarioId == usuarioId)
+            .Include(r => r.Fotos)
+            .OrderByDescending(r => r.Id)
+            .ToListAsync();
 
-            if (usuario is not null)
-            {
-                Usuario = usuario;
-
-                return Page();
-            }
-
-            return NotFound();
+            return Page();
         }
     }
 }
