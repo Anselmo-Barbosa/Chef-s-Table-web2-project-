@@ -65,8 +65,7 @@ namespace Chef_sTable.Pages.Usuarios
                     throw;
                 }
             }
-
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Usuarios/Details");
         }
 
         private bool UsuarioExists(int id)
