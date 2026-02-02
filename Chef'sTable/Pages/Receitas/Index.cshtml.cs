@@ -1,31 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ChefsTable;
 using ChefsTable.Models;
+using ChefsTable;
 
 namespace Chef_sTable.Pages.Receitas
 {
     public class IndexModel : PageModel
     {
-        private readonly ChefsTable.ChefContext _context;
+        private readonly ChefContext _context;
 
-        public IndexModel(ChefsTable.ChefContext context)
+        public IndexModel(ChefContext context)
         {
             _context = context;
         }
 
-        public IList<Receita> Receita { get;set; } = default!;
+        public IList<Receita> Receitas { get; set; } = new List<Receita>();
 
         public async Task OnGetAsync()
         {
-            Receita = await _context.Receitas
-                .Include(r => r.Fotos)
-                .Include(r => r.Usuario).ToListAsync();
+            Receitas = await _context.Receitas.ToListAsync();
         }
     }
 }
