@@ -8,8 +8,6 @@
 
 <script src="~/js/receita-galeria.js" defer></script>
 
-
-
 @if (Model.Receita.Fotos != null && Model.Receita.Fotos.Any())
 {
     var capa = Model.Receita.Fotos.First();
@@ -53,7 +51,7 @@
         </div>
     </section>
 
-    <!-- MINI GALERIA -->
+    <!-- mini galeria abaixo da foto -->
     @if (Model.Receita.Fotos.Count > 1)
     {
         <div class="mini-galeria">
@@ -67,12 +65,12 @@
     }
 }
 
-<!-- MODAL -->
+<!-- modal -->
 <div id="modalFoto" class="modal-foto" onclick="fecharModal()">
     <img id="imgModal">
 </div>
 
-<!-- CONTEÚDO DA RECEITA -->
+<!-- conteudo da receita -->
 <section class="conteudo-receita">
 
     <div class="info-receita">
@@ -107,19 +105,25 @@
             <h5>Ingredientes</h5>
         </div>
 
-        <p>@Model.Receita.Ingredientes</p>
+        <p style="white-space: pre-line;">
+            @Model.Receita.Ingredientes
+        </p>
 
         <div class="titulo-com-icone">
             <img src="~/img/descricao-logo.png" class="icone-infos"
                  style="width:28px;height:28px;" />
             <h5>Modo de Preparo</h5>
         </div>
+
+        <p style="white-space: pre-line;">
         <p>@Model.Receita.ModoPreparo</p>
+        </p>
+
     </div>
 
     <hr />
 
-    <!---- COMENTÁRIOS ===== -->
+    <!---- Comentarios ===== -->
     <section id="comentarios" class="comentarios">
 
         <h3>Comentários</h3>
@@ -146,7 +150,7 @@
                                         • @comentario.DataCriacao.ToString("dd/MM/yyyy HH:mm")
                                     </small>
 
-                                    <!-- AVALIAÇÃO -->
+                                    <!-- avaliação -->
                                     <div class="avaliacao-exibicao">
                                         @for (int i = 1; i <= 5; i++)
                                         {
@@ -162,7 +166,7 @@
                                     </div>
                                 </div>
 
-                                <!-- AÇÕES SÓ PARA O DONO -->
+                                <!-- edição e exclusão do comentario apenas para os donos -->
                                 @if (Model.UsuarioLogadoId == comentario.UsuarioId)
                                 {
                                     <div class="acoes-comentario text-end">
@@ -230,7 +234,7 @@
 
        
 
-        <!-- FORMULÁRIO DE COMENTÁRIO -->
+        <!-- Formulario do comentario -->
         @if (HttpContext.Session.GetInt32("UsuarioId") != null)
         {
             <form method="post" asp-page-handler="Comentario"
@@ -238,7 +242,7 @@
 
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
 
-                <!-- AVALIAÇÃO -->
+                <!-- avaliação -->
                 <div class="avaliacao mb-2">
                     <span class="me-2">Sua avaliação:</span>
 
@@ -286,8 +290,9 @@
         }
 
     </section>
-
 </section>
+
+<a asp-page="/Index" class="link-voltar">← Voltar para home</a>
 
 @section Scripts {
     @{

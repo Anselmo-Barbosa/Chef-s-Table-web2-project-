@@ -26,19 +26,14 @@
                 <span asp-validation-for="Usuario.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Usuario.Senha" class="control-label"></label>
-                <input asp-for="Usuario.Senha" class="form-control" />
-                <span asp-validation-for="Usuario.Senha" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar alterações" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Voltar ao perfil</a>
+    <a asp-page="./Details" class="link-voltar">← Voltar para seu perfil</a>
 </div>
 
 @section Scripts {

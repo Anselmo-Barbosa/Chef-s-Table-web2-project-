@@ -98,7 +98,7 @@ namespace Chef_sTable.Pages.Receitas
 
             TempData["ReceitaSuccess"] = "Sua receita foi postada com sucesso!";
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index");
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Chef_sTable.Pages.Auth
         public string Email { get; set; }
 
         [BindProperty, Required]
+        
         public string Senha { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
@@ -28,11 +29,11 @@ namespace Chef_sTable.Pages.Auth
                 return Page();
 
             var usuario = _context.Usuarios
-                .FirstOrDefault(u => u.Email == Email && u.Senha == Senha);
+                .FirstOrDefault(u => u.Email == Email);
 
 
 
-            if (usuario == null)
+            if (usuario == null || !PasswordHasher.Verify(Senha, usuario.Senha))
             {
                 ModelState.AddModelError(string.Empty, "Email ou senha inválidos");
                 return Page();
@@ -41,6 +42,7 @@ namespace Chef_sTable.Pages.Auth
             // Login temporário (mock)
             HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
             HttpContext.Session.SetString("UsuarioNome", usuario.Nome);
+            HttpContext.Session.SetString("UsuarioEmail", usuario.Email);
 
             return RedirectToPage("/Index");
         }

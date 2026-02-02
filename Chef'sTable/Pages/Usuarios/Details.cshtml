@@ -7,6 +7,13 @@
 
 <link rel="stylesheet" href="~/css/minhas-receitas.css" />
 
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -44,12 +51,25 @@
 </div>
 
 
-
 <div class="container mt-5">
 
     <h3 class="mb-4 text-center">
         Minhas Receitas
     </h3>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["MensagemDelete"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["MensagemDelete"]
+        </div>
+    }
 
     @if (Model.Receita != null && Model.Receita.Any())
     {
@@ -65,13 +85,13 @@
                        asp-route-id="@item.Id"
                        class="card-link">
 
-                        <!-- CAPA -->
+                        <!-- capa -->
                         <img src="@(capa?.Url ?? "/img/sem-foto.jpg")"
                              class="card-img" />
 
                         <div class="card-body">
 
-                            <!-- AUTOR -->
+                            <!-- autor -->
                             <div class="card-autor">
                                 <img src="/img/avatar-padrao.png"
                                      class="autor-avatar" />
@@ -115,7 +135,7 @@
     else
     {
         <div class="text-center text-muted mt-4">
-            <p>😢 Você ainda não publicou nenhuma receita.</p>
+            <p>Você ainda não publicou nenhuma receita.</p>
 
             <a asp-page="/Receitas/Create"
                class="btn btn-outline-success btn-sm mt-2">
@@ -123,5 +143,6 @@
             </a>
         </div>
     }
+
 </div>
     

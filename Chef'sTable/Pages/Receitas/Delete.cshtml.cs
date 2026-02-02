@@ -56,9 +56,9 @@ namespace Chef_sTable.Pages.Receitas
                 await _context.SaveChangesAsync();
             }
 
-            TempData["Success"] = "Sua receita foi deletada com sucesso!";
+            TempData["MensagemDelete"] = "Sua receita foi deletada com sucesso!";
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Usuarios/Details");
         }
     }
 }

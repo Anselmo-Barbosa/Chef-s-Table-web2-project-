@@ -150,6 +150,8 @@ namespace Chef_sTable.Pages.Receitas
         {
             var usuarioId = HttpContext.Session.GetInt32("UsuarioId");
 
+            ModelState.Remove(nameof(NovoComentario));
+
             if (usuarioId == null)
                 return RedirectToPage("/Auth/Login");
 

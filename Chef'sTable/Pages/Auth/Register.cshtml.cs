@@ -2,6 +2,7 @@ using ChefsTable;
 using ChefsTable.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chef_sTable.Pages.Auth
 {
@@ -21,6 +22,7 @@ namespace Chef_sTable.Pages.Auth
         public string Email { get; set; }
 
         [BindProperty]
+        [MinLength(6, ErrorMessage = "Senha deve ter no mínimo 6 caracteres")]
         public string Senha { get; set; }
 
         public void OnGet()
@@ -43,7 +45,7 @@ namespace Chef_sTable.Pages.Auth
             {
                 Nome = Nome,
                 Email = Email,
-                Senha = Senha // depois criptografamos
+                Senha = PasswordHasher.Hash(Senha)
             };
 
             _context.Usuarios.Add(usuario);

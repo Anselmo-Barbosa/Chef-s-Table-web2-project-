@@ -43,29 +43,25 @@ namespace Chef_sTable.Pages.Usuarios
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            // Ignora validação da senha (não vem no formulário)
+            ModelState.Remove("Usuario.Senha");
+
             if (!ModelState.IsValid)
-            {
                 return Page();
-            }
 
-            _context.Attach(Usuario).State = EntityState.Modified;
+            var usuarioDb = await _context.Usuarios.FindAsync(Usuario.Id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UsuarioExists(Usuario.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToPage("/Usuarios/Details");
+            if (usuarioDb == null)
+                return NotFound();
+
+            usuarioDb.Nome = Usuario.Nome;
+            usuarioDb.Email = Usuario.Email;
+
+            await _context.SaveChangesAsync();
+
+            TempData["MensagemSucesso"] = "Perfil atualizado com sucesso!";
+
+            return RedirectToPage("./Details", new { id = Usuario.Id });
         }
 
         private bool UsuarioExists(int id)

@@ -1,14 +1,23 @@
 ﻿@page
 @model IndexModel
 
+
 <link rel="stylesheet" href="~/css/home.css" />
 <link rel="stylesheet" href="~/css/receita-cards.css" />
+
 
 <div class="navbar-container">
     <div class="logo-home">
     <img src="~/img/chef-logo.png">
     </div>
 </div>
+
+@if (TempData["ReceitaSuccess"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["ReceitaSuccess"]
+    </div>
+}
 
 <header class="topbar">
     <nav class="menu">
@@ -77,11 +86,11 @@
            asp-route-id="@item.Id"
            class="card-home">
 
-            <!-- IMAGEM -->
+            <!-- imagem do card -->
             <div class="card-img-wrapper">
                 <img src="@(capa?.Url ?? "/img/sem-foto.jpg")" alt="@item.Titulo" />
 
-                <!-- OVERLAY -->
+                <!-- overlay -->
                 <div class="card-overlay">
                     <div class="card-rating">
                         @{
@@ -126,19 +135,27 @@
 
 </section>
 
-<p>Escolha o que deseja testar:</p>
+<!-- Area ADM -->
+@{
+    var usuarioEmail = HttpContext.Session.GetString("UsuarioEmail");
+}
 
-<ul>
-    <li>
-        <a asp-page="/Receitas/Index">Gerenciar Receitas</a>
-    </li>
-    <li>
-        <a asp-page="/Categorias/Index">Gerenciar Categorias</a>
-    </li>
-    <li>
-        <a asp-page="/Usuarios/Index">Gerenciar Usuários</a>
-    </li>
-    <li>
-        <a asp-page="/Comentarios/Index">Gerenciar Comentários</a>
-    </li>
-</ul>
+@if (usuarioEmail == "anselmo@gmail.com")
+{
+    <div class="card mt-4 p-3 border-success">
+        <h4>Área exclusiva para testes,</h4>
+        <p>Somente o usuário (ADM) pode ver isso.</p>
+        <ul>
+            <li>
+                <a asp-page="/Categorias/Index">Gerenciar Categorias</a>
+            </li>
+            <li>
+                <a asp-page="/Usuarios/Index">Gerenciar Usuários</a>
+            </li>
+            <li>
+                <a asp-page="/Comentarios/Index">Gerenciar Comentários</a>
+            </li>
+        </ul>
+    </div>
+}
+
